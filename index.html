@@ -3,92 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KingsDragonMail - 전설의 시작</title>
+    <title>KingsDragonMail | Legend Never Dies</title>
     <style>
+        /* COREMail 시절의 묵직한 다크 모드 스타일 */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Avenir Next', 'Pretendard', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
+
         .container {
             text-align: center;
-            padding: 40px;
-            background: #2d2d2d;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 2px solid #d4af37; /* 황금색 포인트 */
+            width: 100%;
+            max-width: 600px;
         }
-        h1 {
-            color: #d4af37;
-            font-size: 3rem;
-            margin-bottom: 10px;
+
+        /* 드래곤의 위엄을 담은 로고 */
+        .brand-logo {
+            font-size: 14px;
+            letter-spacing: 8px;
+            color: #555;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
-        p {
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -2px;
+            /* 황금빛 드래곤 그라데이션 */
+            background: linear-gradient(135-deg, #fff 0%, #d4af37 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .subtitle {
             font-size: 1.2rem;
-            color: #ccc;
+            color: #888;
+            margin-top: 10px;
+            margin-bottom: 50px;
+            font-weight: 300;
         }
-        .input-group {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
+
+        /* COREMail 특유의 깔끔한 입력창 롤백 */
+        .input-area {
+            position: relative;
+            margin-bottom: 30px;
         }
+
         input {
-            padding: 15px;
-            border-radius: 10px 0 0 10px;
+            background: transparent;
             border: none;
-            width: 250px;
-            font-size: 1rem;
+            border-bottom: 2px solid #333;
+            color: #fff;
+            font-size: 1.5rem;
+            padding: 10px 0;
+            width: 100%;
+            text-align: center;
+            transition: border-color 0.3s;
         }
-        .domain-tag {
-            background: #444;
-            padding: 15px;
-            border-radius: 0 10px 10px 0;
-            font-weight: bold;
+
+        input:focus {
+            outline: none;
+            border-bottom-color: #d4af37;
+        }
+
+        .domain-label {
+            display: block;
+            font-size: 0.9rem;
             color: #d4af37;
-        }
-        button {
-            margin-top: 20px;
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: none;
-            background: #d4af37;
-            color: #000;
+            margin-top: 10px;
             font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.2s;
         }
-        button:hover {
-            transform: scale(1.1);
+
+        /* 묵직한 버튼 스타일 */
+        .btn-start {
+            margin-top: 40px;
+            background: #fff;
+            color: #000;
+            padding: 20px 60px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-start:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* 배경에 은은한 드래곤 눈 효과 */
+        .bg-dragon {
+            position: absolute;
+            z-index: -1;
+            font-size: 20rem;
+            color: rgba(212, 175, 55, 0.03);
+            user-select: none;
         }
     </style>
 </head>
 <body>
+    <div class="bg-dragon">🐲</div>
+    
     <div class="container">
-        <h1>🐲 KingsDragonMail</h1>
-        <p>강력한 보안, 전설적인 이메일 주소를 소유하세요.</p>
-        
-        <div class="input-group">
-            <input type="text" placeholder="원하는 아이디 입력" id="user-id">
-            <div class="domain-tag">@kingsdragonmail.abrdns.com</div>
+        <div class="brand-logo">THE SUPREME EMAIL SERVICE</div>
+        <h1>KingsDragonMail</h1>
+        <p class="subtitle">전설은 사라지지 않습니다. 오직 진화할 뿐.</p>
+
+        <div class="input-area">
+            <input type="text" id="mail-id" placeholder="Choose your ID" autocomplete="off">
+            <span class="domain-label">@kingsdragonmail.abrdns.com</span>
         </div>
-        
-        <button onclick="requestMail()">무료 주소 신청하기</button>
+
+        <button class="btn-start" onclick="launch()">AWAKEN NOW</button>
     </div>
 
     <script>
-        function requestMail() {
-            const id = document.getElementById('user-id').value;
+        function launch() {
+            const id = document.getElementById('mail-id').value;
             if(id) {
-                alert(id + "@kingsdragonmail.abrdns.com 주소를 확보하기 위해 용을 깨우는 중입니다... (곧 실제 연동 예정!)");
+                alert("심장에 불을 지피는 중...\n" + id + "@kingsdragonmail.abrdns.com 주소가 곧 당신의 것이 됩니다.");
             } else {
-                alert("아이디를 입력해 주세요, 용사여!");
+                alert("아이디를 입력하여 드래곤을 깨우십시오.");
             }
         }
     </script>
