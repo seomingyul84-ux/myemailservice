@@ -4,163 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KingsDragonMail | 전설적인 보안 메일 서비스</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+
     <script type="text/javascript">
-       (function(){
-          // 사장님의 Public Key로 엔진 초기화
-          emailjs.init("sNlzvNIioN1urvCco");
-       })();
+       // EmailJS 초기화
+       emailjs.init("sNlzvNIioN1urvCco");
+
+       // [사장님 전용 Firebase 설정]
+       const firebaseConfig = {
+         apiKey: "AIzaSyDFQy1IIyNGRpZIcS3y58zznAoc9ljATZg",
+         authDomain: "my-email-project-77612.firebaseapp.com",
+         databaseURL: "https://my-email-project-77612-default-rtdb.firebaseio.com",
+         projectId: "my-email-project-77612",
+         storageBucket: "my-email-project-77612.appspot.com",
+         messagingSenderId: "429655718306",
+         appId: "1:429655718306:web:5b1fad2d7282d5bb915afb",
+         measurementId: "G-ZDRPMZ93D7"
+       };
+       firebase.initializeApp(firebaseConfig);
+       const database = firebase.database();
     </script>
+
     <style>
-        :root { --outlook-blue: #0078d4; --dragon-gold: #d4af37; --text-main: #242424; --bg-light: #f3f2f1; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #fff; color: var(--text-main); overflow-x: hidden; }
-
-        /* 홈페이지 스타일 */
-        header { padding: 20px 5%; border-bottom: 1px solid #eee; display: flex; align-items: center; }
-        .hero { display: flex; padding: 60px 10%; align-items: center; min-height: 70vh; }
-        .hero-text { flex: 1; }
-        h1 { font-size: 3.5rem; font-weight: 600; margin-bottom: 20px; line-height: 1.1; }
-        .gold { color: var(--dragon-gold); font-weight: 800; }
-        .input-group { display: flex; border: 1px solid #8a8a8a; padding: 12px; max-width: 480px; margin-bottom: 20px; background: #fff; }
-        input { border: none; outline: none; width: 100%; font-size: 1rem; }
-        .btn-primary { background: #242424; color: #fff; padding: 18px 45px; border: none; font-weight: 600; cursor: pointer; border-radius: 2px; font-size: 1rem; transition: 0.2s; }
-        .btn-primary:hover { background: var(--outlook-blue); }
-
-        /* 보안 모달 스타일 */
+        :root { --outlook-blue: #0078d4; --dragon-gold: #d4af37; --bg-light: #f3f2f1; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #fff; overflow-x: hidden; }
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-        .modal-content { background: #fff; padding: 40px; border-radius: 4px; width: 360px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .secure-field { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; box-sizing: border-box; font-size: 1rem; }
-        
-        /* 복사 방지 캡차 */
-        #captcha-display {
-            background: #e1e1e1; padding: 15px; margin: 15px 0; text-align: center;
-            font-family: 'Courier New', monospace; font-size: 1.8rem; font-weight: 900;
-            letter-spacing: 10px; user-select: none; -webkit-user-select: none;
-            pointer-events: none; border: 1px dashed #999; font-style: italic;
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-        }
-
-        /* 인박스 페이지 스타일 */
+        .modal-content { background: #fff; padding: 40px; border-radius: 4px; width: 360px; }
         #inbox-page { display: none; height: 100vh; flex-direction: column; background: var(--bg-light); }
-        .inbox-top { background: var(--outlook-blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
         .inbox-main { display: flex; flex: 1; overflow: hidden; }
         .sidebar { width: 220px; background: #fff; border-right: 1px solid #edebe9; padding: 15px; }
         .mail-list { width: 350px; background: #fff; border-right: 1px solid #edebe9; overflow-y: auto; }
         .mail-view { flex: 1; background: #fff; padding: 40px; }
-        .mail-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
-        .mail-item.active { background: #eff6fc; border-left: 4px solid var(--outlook-blue); }
+        .mail-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; transition: 0.2s; }
+        .mail-item:hover { background: #f3f2f1; }
+        .secure-field { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        #captcha-display { background: #e1e1e1; padding: 15px; text-align: center; font-weight: 900; letter-spacing: 10px; user-select: none; pointer-events: none; margin: 10px 0; }
     </style>
 </head>
 <body>
 
     <div id="home-page">
-        <header><div style="font-weight:700; color:var(--outlook-blue); font-size:1.2rem;">🐲 KingsDragonMail</div></header>
-        <section class="hero">
-            <div class="hero-text">
-                <h1>전설적인 메일을 위한<br><span class="gold">KingsDragon</span> Outlook</h1>
-                <p style="font-size:1.3rem; color:#616161; margin-bottom:40px;">당신만의 위엄 있는 보안 주소를 확보하세요.</p>
-                <div class="input-group">
-                    <input type="text" id="reg-id" placeholder="사용할 ID 입력" autocomplete="off">
-                    <span style="color:var(--outlook-blue); font-weight:700; white-space:nowrap;">@kingsdragonmail.abrdns.com</span>
-                </div>
-                <button class="btn-primary" onclick="showSecurity()">지금 시작하기</button>
+        <section style="padding: 100px 10%;">
+            <h1>KingsDragon <span style="color:var(--dragon-gold)">Outlook</span></h1>
+            <div style="display:flex; border:1px solid #ccc; padding:10px; max-width:400px; margin-bottom:20px;">
+                <input type="text" id="reg-id" placeholder="아이디 입력" style="border:none; outline:none; width:100%;">
+                <span style="color:var(--outlook-blue); font-weight:bold;">@kingsdragonmail.abrdns.com</span>
             </div>
-            <div style="flex:1; font-size:14rem; text-align:right;">🐲</div>
+            <button onclick="showSecurity()" style="background:#242424; color:#fff; padding:15px 30px; border:none; cursor:pointer;">계정 만들기</button>
         </section>
     </div>
 
     <div id="security-modal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-top:0;">🛡️ 보안 검증</h3>
-            <label style="font-size:0.8rem; font-weight:bold;">비밀번호 설정</label>
+            <h3>🛡️ 보안 검증</h3>
             <input type="password" id="reg-pw" class="secure-field" placeholder="Password">
-            
-            <label style="font-size:0.8rem; font-weight:bold; margin-top:15px; display:block;">보안 문자 (복사 불가)</label>
             <div id="captcha-display"></div>
-            <input type="text" id="captcha-input" class="secure-field" placeholder="보이는 문자 입력" autocomplete="off">
-
-            <button id="submit-btn" class="btn-primary" style="width:100%; margin-top:10px;" onclick="completeSignup()">가입 완료</button>
-            <button style="width:100%; background:none; border:none; color:#999; margin-top:10px; cursor:pointer;" onclick="hideSecurity()">취소</button>
+            <input type="text" id="captcha-input" class="secure-field" placeholder="보안 문자 입력">
+            <button id="submit-btn" style="width:100%; background:var(--outlook-blue); color:white; padding:15px; border:none; cursor:pointer;" onclick="completeSignup()">가입 완료</button>
         </div>
     </div>
 
     <div id="inbox-page">
-        <div class="inbox-top">
-            <div>KingsDragon Email</div>
-            <div id="logged-in-user" style="font-size:0.85rem; font-weight:400;"></div>
+        <div style="background:var(--outlook-blue); color:white; padding:15px; display:flex; justify-content:space-between;">
+            <div>KingsDragon Outlook</div>
+            <div id="logged-in-user"></div>
         </div>
         <div class="inbox-main">
             <div class="sidebar">
-                <div style="font-weight:bold; color:var(--outlook-blue); padding:10px; background:#eff6fc; border-radius:4px;">받은 편지함 (1)</div>
-                <div style="padding:10px; color:#666;">보낸 편지함</div>
+                <div style="font-weight:bold; color:var(--outlook-blue);">받은 편지함</div>
             </div>
-            <div class="mail-list">
-                <div class="mail-item active">
-                    <div style="font-weight:bold; color:var(--outlook-blue);">Dragon Master</div>
-                    <div style="font-weight:600; font-size:0.9rem;">Welcome to KingsDragonMail!</div>
-                    <div style="font-size:0.8rem; color:#888;">전설의 시작을 환영합니다...</div>
+            <div class="mail-list" id="mail-list-container">
                 </div>
-            </div>
             <div class="mail-view">
-                <h2>Welcome to KingsDragonMail!</h2>
-                <div style="color:var(--outlook-blue); font-weight:600;">Dragon Master &lt;system@kingsdragonmail.com&gt;</div>
-                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
-                <div style="line-height:1.6;">
-                    축하합니다! 귀하의 전설적인 계정이 성공적으로 생성되었습니다. <br><br>
-                    이제 <strong>KingsDragonMail</strong>의 모든 보안 기능을 이용하실 수 있습니다. <br>
-                    관리자가 귀하의 가입 정보를 확인하고 승인 절차를 진행 중입니다.
-                </div>
+                <h2 id="view-subject">메일을 선택하세요</h2>
+                <div id="view-sender" style="color:var(--outlook-blue);"></div>
+                <hr>
+                <div id="view-body" style="margin-top:20px; line-height:1.6;"></div>
             </div>
         </div>
     </div>
 
     <script>
         let correctCaptcha = "";
-
         function generateCaptcha() {
             correctCaptcha = Math.random().toString(36).substring(2, 7).toUpperCase();
             document.getElementById('captcha-display').innerText = correctCaptcha;
         }
 
         function showSecurity() {
-            if(!document.getElementById('reg-id').value) { alert("아이디를 입력해주세요."); return; }
+            if(!document.getElementById('reg-id').value) return alert("아이디를 쓰세요!");
             generateCaptcha();
             document.getElementById('security-modal').style.display = 'flex';
         }
 
-        function hideSecurity() { document.getElementById('security-modal').style.display = 'none'; }
-
         function completeSignup() {
             const id = document.getElementById('reg-id').value;
-            const pw = document.getElementById('reg-pw').value;
             const input = document.getElementById('captcha-input').value;
-            const btn = document.getElementById('submit-btn');
 
-            if(pw.length < 4) { alert("비밀번호를 4자 이상 설정하세요."); return; }
-            if(input.toUpperCase() !== correctCaptcha) { alert("보안 문자가 틀렸습니다."); return; }
+            if(input.toUpperCase() !== correctCaptcha) return alert("보안문자 틀림!");
 
-            // 버튼 비활성화 (여러번 전송 방지)
-            btn.disabled = true;
-            btn.innerText = "전설 생성 중...";
+            // 1. EmailJS로 사장님께 알림 발송
+            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('reg-pw').value});
 
-            // [EmailJS 진짜 발송]
-            const templateParams = {
-                user_id: id,
-                user_pw: pw
-            };
+            // 2. 화면 전환
+            document.getElementById('logged-in-user').innerText = id + "@kingsdragonmail.abrdns.com";
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('security-modal').style.display = 'none';
+            document.getElementById('inbox-page').style.display = 'flex';
 
-            emailjs.send('service_7gicimk', 'template_ea7ghys', templateParams)
-                .then(function(response) {
-                    alert("성공! 관리자(사장님)에게 가입 메일이 전송되었습니다.");
-                    document.getElementById('logged-in-user').innerText = id + "@kingsdragonmail.abrdns.com";
-                    document.getElementById('home-page').style.display = 'none';
-                    document.getElementById('security-modal').style.display = 'none';
-                    document.getElementById('inbox-page').style.display = 'flex';
-                }, function(error) {
-                    alert("메일 발송 실패: " + JSON.stringify(error));
-                    btn.disabled = false;
-                    btn.innerText = "가입 완료";
-                });
+            // 3. [실시간 감시 시작] 이 아이디로 오는 메일이 있는지 확인
+            startInboxListener(id);
+        }
+
+        function startInboxListener(userId) {
+            const mailRef = database.ref('emails/' + userId);
+            mailRef.on('child_added', (snapshot) => {
+                const data = snapshot.val();
+                const item = document.createElement('div');
+                item.className = 'mail-item';
+                item.innerHTML = `<strong>${data.from}</strong><br><small>${data.subject}</small>`;
+                item.onclick = () => {
+                    document.getElementById('view-subject').innerText = data.subject;
+                    document.getElementById('view-sender').innerText = data.from;
+                    document.getElementById('view-body').innerHTML = data.body;
+                };
+                document.getElementById('mail-list-container').prepend(item);
+            });
         }
     </script>
 </body>
