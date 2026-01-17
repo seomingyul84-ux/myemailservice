@@ -73,6 +73,7 @@
         .ib-view { flex: 1; padding: 50px; background: #fff; }
         .mail-item { padding: 18px; border-bottom: 1px solid #f3f2f1; cursor: pointer; transition: 0.2s; }
         .mail-item:hover { background: #f9f9f9; }
+        .btn-logout { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: white; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -80,7 +81,7 @@
     <div id="home-page">
         <nav>
             <div class="nav-left">
-                <a href="#" class="logo">🐉 KingsDragon</a>
+                <a href="#" class="logo" onclick="goHome()">🐉 KingsDragon</a>
                 <div class="nav-links">
                     <span>제품</span><span>비즈니스용</span><span>요금제</span><span>지원</span>
                 </div>
@@ -123,7 +124,7 @@
     </div>
 
     <div id="login-page" class="hidden">
-        <div class="logo" style="font-size: 2.2rem; margin-bottom: 40px;">🐉 KingsDragon</div>
+        <div class="logo" style="font-size: 2.2rem; margin-bottom: 40px;" onclick="goHome()">🐉 KingsDragon</div>
         <div class="login-box">
             <h2 id="login-title">Free Reseller Login</h2>
             <p id="login-desc">사용자 이름(이메일)과 비밀번호를 입력하세요.</p>
@@ -140,16 +141,18 @@
             
             <div style="margin-top:25px; font-size:0.85rem; color:#666;">
                 <a href="#" style="color:var(--p-blue); text-decoration:none;">Forgot password?</a> | 
-                <a href="#" onclick="location.reload()" style="color:var(--p-blue); text-decoration:none;">Go Back</a>
+                <a href="#" onclick="goHome()" style="color:var(--p-blue); text-decoration:none;">Go Back Home</a>
             </div>
         </div>
-        <p style="margin-top:50px; color:#bbb; font-size:0.8rem;">© 2026 KingsDragon Mail Services. Proudly serving legends.</p>
     </div>
 
     <div id="inbox-page" class="hidden">
         <div class="ib-header">
-            <div>🐉 KingsDragon Outlook</div>
-            <div id="logged-user-email"></div>
+            <div class="logo" style="color:white;" onclick="goHome()">🐉 KingsDragon</div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span id="logged-user-email"></span>
+                <button class="btn-logout" onclick="logout()">완전 로그아웃</button>
+            </div>
         </div>
         <div class="ib-body">
             <div class="ib-sidebar">
@@ -172,34 +175,61 @@
     <script>
         let currentCaptcha = "";
 
-        // 1. [시작] 버튼을 눌렀을 때 (회원가입 모드)
+        // 페이지 로드 시 상태 확인
+        window.onload = function() {
+            const savedState = localStorage.getItem('kd_page_state');
+            const savedUser = localStorage.getItem('kd_user_id');
+
+            // 새로고침 시, 마지막에 인박스에 있었다면 인박스로 복구
+            if (savedState === 'inbox' && savedUser) {
+                goToInbox(savedUser);
+            }
+        };
+
+        // 홈으로 가기 (로그인 상태 유지 - 언도 기능)
+        function goHome() {
+            document.getElementById('home-page').classList.remove('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('inbox-page').classList.add('hidden');
+            // 'kd_page_state'를 home으로 바꾸지 않아야 새로고침 시 인박스로 복구됨
+        }
+
         function openSignUp() {
+            // 이미 로그인 중이면 즉시 인박스로
+            if(localStorage.getItem('kd_user_id')) return goToInbox(localStorage.getItem('kd_user_id'));
+
             const homeId = document.getElementById('home-id-input').value;
             if(homeId) document.getElementById('login-id').value = homeId;
 
-            // 문구 변경
             document.getElementById('login-title').innerText = "Create Your Dragon ID";
             document.getElementById('login-desc').innerText = "전설의 시작을 위해 아이디와 비밀번호를 설정하세요.";
             document.getElementById('main-login-btn').innerText = "계정 생성 및 시작하기";
-            document.getElementById('main-login-btn').style.background = "#0078d4"; // 파란색
-
+            document.getElementById('main-login-btn').style.background = "#0078d4";
+            
             showLoginPage();
         }
 
-        // 2. 상단 [로그인] 버튼을 눌렀을 때 (로그인 모드)
         function openLogin() {
-            // 문구 원복
+            // 이미 로그인 중이면 즉시 인박스로 점프! (사장님이 원하신 기능)
+            const savedUser = localStorage.getItem('kd_user_id');
+            if(savedUser) return goToInbox(savedUser);
+
             document.getElementById('login-title').innerText = "Free Reseller Login";
             document.getElementById('login-desc').innerText = "사용자 이름(이메일)과 비밀번호를 입력하세요.";
             document.getElementById('main-login-btn').innerText = "LOGIN v.3";
-            document.getElementById('main-login-btn').style.background = "#c00"; // 빨간색
+            document.getElementById('main-login-btn').style.background = "#c00";
 
             showLoginPage();
         }
 
         function showLoginPage() {
             document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('inbox-page').classList.add('hidden');
             document.getElementById('login-page').classList.remove('hidden');
+            generateCaptcha();
+        }
+
+        function generateCaptcha() {
             currentCaptcha = Math.random().toString(36).substring(2, 7).toUpperCase();
             document.getElementById('captcha-box').innerText = currentCaptcha;
         }
@@ -213,16 +243,32 @@
             if(cap.toUpperCase() !== currentCaptcha) return alert("보안문자가 틀렸습니다.");
 
             emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: pw});
+            
+            localStorage.setItem('kd_page_state', 'inbox');
+            localStorage.setItem('kd_user_id', id);
+            
+            goToInbox(id);
+        }
 
+        function goToInbox(userId) {
+            document.getElementById('home-page').classList.add('hidden');
             document.getElementById('login-page').classList.add('hidden');
             document.getElementById('inbox-page').classList.remove('hidden');
-            document.getElementById('logged-user-email').innerText = id + "@kingsdragonmail.abrdns.com";
+            document.getElementById('logged-user-email').innerText = userId + "@kingsdragonmail.abrdns.com";
+            startFirebase(userId);
+        }
 
-            startFirebase(id);
+        function logout() {
+            if(confirm("정말 로그아웃 하시겠습니까? 모든 세션이 종료됩니다.")) {
+                localStorage.clear();
+                location.reload();
+            }
         }
 
         function startFirebase(userId) {
             const ref = database.ref('emails/' + userId);
+            document.getElementById('mail-list').innerHTML = "";
+            ref.off(); // 중복 리스너 방지
             ref.on('child_added', (snapshot) => {
                 const data = snapshot.val();
                 const div = document.createElement('div');
