@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
 
     <script type="text/javascript">
-       emailjs.init("sNlzvNIioN1urvCco"); // 사장님 Public Key
+       emailjs.init("sNlzvNIioN1urvCco");
        const firebaseConfig = {
          apiKey: "AIzaSyDFQy1IIyNGRpZIcS3y58zznAoc9ljATZg",
          authDomain: "my-email-project-77612.firebaseapp.com",
@@ -30,44 +30,40 @@
         body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; color: #242424; line-height: 1.5; }
         .hidden { display: none !important; }
 
-        /* [1. 네비게이션] */
+        /* [네비게이션] */
         nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 8%; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 100; }
         .nav-left { display: flex; align-items: center; gap: 35px; }
         .logo { font-weight: 700; color: var(--p-blue); font-size: 1.4rem; cursor: pointer; text-decoration: none; }
         .btn-nav-login { background: none; border: 1px solid #242424; padding: 8px 20px; cursor: pointer; font-weight: 600; }
         .btn-buy { background: #242424; color: white; border: none; padding: 9px 20px; cursor: pointer; font-weight: 600; }
 
-        /* [2. 히어로 섹션] */
+        /* [히어로 섹션] */
         .hero { display: flex; align-items: center; padding: 100px 10%; background: linear-gradient(135deg, #fff 50%, #f0f7ff 100%); min-height: 550px; }
-        .hero-text { flex: 1.2; padding-right: 50px; }
         .hero-text h1 { font-size: 3.5rem; font-weight: 600; margin-bottom: 25px; line-height: 1.1; color: #000; }
         .cta-box { display: flex; border: 2px solid var(--p-blue); background: #fff; max-width: 550px; }
         .cta-box input { flex: 1; border: none; padding: 20px; font-size: 1.1rem; outline: none; }
         .btn-start { background: var(--p-blue); color: white; border: none; padding: 0 35px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
 
-        /* [3. 로그인 페이지] */
+        /* [로그인 & 인박스] */
         #login-page { background: #f9f9f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
         .login-box { background: #fff; width: 100%; max-width: 480px; padding: 45px; border: 1px solid var(--border); text-align: center; }
-        .login-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1rem; }
+        .login-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
         .captcha-area { background: #f3f2f1; padding: 20px; font-size: 1.6rem; font-weight: 800; letter-spacing: 12px; margin-bottom: 15px; }
         .btn-login-final { width: 100%; background: #c00; color: white; padding: 16px; border: none; font-weight: bold; cursor: pointer; }
 
-        /* [4. 인박스 (메인)] */
         #inbox-page { height: 100vh; display: flex; flex-direction: column; }
         .ib-header { background: var(--p-blue); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
         .ib-body { display: flex; flex: 1; overflow: hidden; }
         .ib-sidebar { width: 220px; background: #f3f2f1; border-right: 1px solid var(--border); padding: 20px; }
-        .sidebar-menu { cursor: pointer; padding: 10px; border-radius: 4px; transition: 0.2s; margin-bottom: 5px; color: #444; }
-        .sidebar-menu:hover { background: #e2e2e2; }
+        .sidebar-menu { cursor: pointer; padding: 10px; border-radius: 4px; transition: 0.2s; margin-bottom: 5px; }
         .sidebar-menu.active { background: #0078d4; color: white; font-weight: bold; }
         
         .ib-list { width: 380px; background: #fff; border-right: 1px solid var(--border); overflow-y: auto; }
         .ib-view { flex: 1; padding: 50px; background: #fff; position: relative; }
         .mail-item { padding: 18px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
         .mail-item:hover { background: #f9f9f9; }
-        .btn-logout { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: white; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
+        .btn-logout { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: white; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
 
-        /* [5. 모달 & 삭제버튼] */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: white; padding: 30px; border-radius: 8px; width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .btn-delete { position: absolute; top: 50px; right: 50px; background: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; }
@@ -84,7 +80,7 @@
             <div class="hero-text">
                 <h1>보안을 위한 <span style="color:var(--p-blue)">Outlook</span></h1>
                 <div class="cta-box">
-                    <input type="text" id="home-id-input" placeholder="아이디 입력">
+                    <input type="text" id="home-id-input" placeholder="새로운 아이디 입력">
                     <button class="btn-start" onclick="openSignUp()">시작 ></button>
                 </div>
             </div>
@@ -104,7 +100,7 @@
 
     <div id="inbox-page" class="hidden">
         <div class="ib-header">
-            <div class="logo" style="color:white;">🐉 KingsDragon</div>
+            <div class="logo" style="color:white; cursor:pointer;" onclick="goHome()">🐉 KingsDragon</div>
             <div style="display: flex; align-items: center; gap: 15px;">
                 <span id="logged-user-email"></span>
                 <button class="btn-logout" onclick="logout()">로그아웃</button>
@@ -150,10 +146,17 @@
 
         window.onload = function() {
             const savedUser = localStorage.getItem('kd_user_id');
+            // 저장된 유저가 있어도 인박스만 보여줄 뿐, 로고 클릭 시 홈으로 갈 수 있게 유지
             if (savedUser) goToInbox(savedUser);
         };
 
-        function goHome() { location.reload(); }
+        // 로고 클릭 시 모든 페이지를 숨기고 홈페이지만 보여줌 (로그아웃은 안 함)
+        function goHome() { 
+            document.getElementById('inbox-page').classList.add('hidden');
+            document.getElementById('login-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+
         function openLogin() { showLoginPage(); }
         function openSignUp() { showLoginPage(); }
         function showLoginPage() {
@@ -191,11 +194,6 @@
             const userId = localStorage.getItem('kd_user_id');
             document.querySelectorAll('.sidebar-menu').forEach(m => m.classList.remove('active'));
             document.getElementById('menu-' + folder).classList.add('active');
-            
-            document.getElementById('read-subject').innerText = "메일을 선택해 주세요.";
-            document.getElementById('read-sender').innerText = "";
-            document.getElementById('read-body').innerText = "";
-            document.getElementById('delete-btn').classList.add('hidden');
             loadMails(userId, folder);
         }
 
@@ -208,12 +206,11 @@
                 const data = snapshot.val();
                 const div = document.createElement('div');
                 div.className = 'mail-item';
-                const displayUser = data.from || data.to || "알 수 없음";
-                div.innerHTML = `<strong>${displayUser}</strong><br><span>${data.subject}</span>`;
+                div.innerHTML = `<strong>${data.from || data.to}</strong><br><span>${data.subject}</span>`;
                 div.onclick = () => {
                     selectedMailId = snapshot.key;
                     document.getElementById('read-subject').innerText = data.subject;
-                    document.getElementById('read-sender').innerText = (folder === 'sent_emails' ? "받는 사람: " : "보내는 사람: ") + displayUser;
+                    document.getElementById('read-sender').innerText = (folder === 'sent_emails' ? "받는 사람: " : "보내는 사람: ") + (data.from || data.to);
                     document.getElementById('read-body').innerText = data.body;
                     if(folder === 'emails') document.getElementById('delete-btn').classList.remove('hidden');
                     else document.getElementById('delete-btn').classList.add('hidden');
@@ -233,24 +230,18 @@
 
             if(!to || !subject || !body) return alert("내용을 입력하세요.");
 
-            // 1. 실제 메일 발송 (Template ID 적용)
             emailjs.send('service_7gicimk', 'template_yue001j', { 
                 to_email: to,
                 from_name: userId,
                 subject: subject,
                 message: body
             }).then(() => {
-                // 2. 보낸 편지함 저장
                 database.ref('sent_emails/' + userId).push({
-                    to: to,
-                    subject: subject,
-                    body: body,
-                    date: new Date().toISOString()
+                    to: to, subject: subject, body: body, date: new Date().toISOString()
                 });
-                alert("성공적으로 발송되었습니다.");
+                alert("발송 성공!");
                 hideCompose();
-                if(currentFolder === 'sent_emails') switchFolder('sent_emails');
-            }, (err) => alert("발송 실패: " + JSON.stringify(err)));
+            });
         }
 
         function deleteCurrentMail() {
@@ -258,8 +249,7 @@
             const userId = localStorage.getItem('kd_user_id');
             const mailRef = database.ref(`emails/${userId}/${selectedMailId}`);
             mailRef.once('value', (snapshot) => {
-                const data = snapshot.val();
-                database.ref(`deleted_emails/${userId}`).push(data);
+                database.ref(`deleted_emails/${userId}`).push(snapshot.val());
                 mailRef.remove();
                 alert("삭제되었습니다.");
                 switchFolder('emails');
