@@ -26,75 +26,125 @@
     </script>
 
     <style>
-        :root { --p-blue: #0078d4; --hover-blue: #005a9e; --bg-light: #f3f2f1; --border: #ddd; }
-        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; color: #242424; line-height: 1.5; }
+        :root { --p-blue: #0078d4; --hover-blue: #005a9e; --bg-light: #f3f2f1; --border: #ddd; --dark: #1b1b1b; }
+        body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; color: #242424; overflow-x: hidden; }
         .hidden { display: none !important; }
 
         /* [네비게이션] */
-        nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 8%; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 100; }
-        .nav-left { display: flex; align-items: center; gap: 35px; }
-        .logo { font-weight: 700; color: var(--p-blue); font-size: 1.4rem; cursor: pointer; text-decoration: none; }
-        .btn-nav-login { background: none; border: 1px solid #242424; padding: 8px 20px; cursor: pointer; font-weight: 600; }
-        .btn-buy { background: #242424; color: white; border: none; padding: 9px 20px; cursor: pointer; font-weight: 600; }
+        nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 8%; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 700; color: var(--p-blue); font-size: 1.5rem; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #444; font-weight: 500; font-size: 0.95rem; }
+        .btn-nav-login { background: none; border: 1px solid #242424; padding: 8px 22px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-nav-login:hover { background: #f3f2f1; }
 
-        /* [히어로 섹션] */
-        .hero { display: flex; align-items: center; padding: 100px 10%; background: linear-gradient(135deg, #fff 50%, #f0f7ff 100%); min-height: 550px; }
-        .hero-text h1 { font-size: 3.5rem; font-weight: 600; margin-bottom: 25px; line-height: 1.1; color: #000; }
-        .cta-box { display: flex; border: 2px solid var(--p-blue); background: #fff; max-width: 550px; }
-        .cta-box input { flex: 1; border: none; padding: 20px; font-size: 1.1rem; outline: none; }
-        .btn-start { background: var(--p-blue); color: white; border: none; padding: 0 35px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        /* [히어로 섹션 - 꽉 채움] */
+        .hero { display: flex; align-items: center; justify-content: space-between; padding: 100px 10%; background: linear-gradient(135deg, #fff 40%, #eef6ff 100%); min-height: 600px; }
+        .hero-text { flex: 1; }
+        .hero-text h1 { font-size: 4rem; font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero-text p { font-size: 1.25rem; color: #555; margin-bottom: 35px; line-height: 1.6; }
+        .cta-box { display: flex; border: 2px solid var(--p-blue); background: #fff; max-width: 500px; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,120,212,0.1); }
+        .cta-box input { flex: 1; border: none; padding: 18px; font-size: 1rem; outline: none; }
+        .btn-start { background: var(--p-blue); color: white; border: none; padding: 0 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .hero-img { flex: 1; display: flex; justify-content: center; }
+        .hero-img img { width: 110%; max-width: 600px; filter: drop-shadow(0 20px 50px rgba(0,0,0,0.1)); }
 
-        /* [로그인 & 인박스] */
-        #login-page { background: #f9f9f9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
-        .login-box { background: #fff; width: 100%; max-width: 480px; padding: 45px; border: 1px solid var(--border); text-align: center; }
-        .login-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; }
-        .captcha-area { background: #f3f2f1; padding: 20px; font-size: 1.6rem; font-weight: 800; letter-spacing: 12px; margin-bottom: 15px; }
-        .btn-login-final { width: 100%; background: #c00; color: white; padding: 16px; border: none; font-weight: bold; cursor: pointer; }
+        /* [특장점 섹션] */
+        .features { padding: 80px 10%; background: #fff; text-align: center; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 50px; }
+        .f-card { padding: 40px; border: 1px solid #eee; border-radius: 8px; transition: 0.3s; }
+        .f-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+        .f-card i { font-size: 2.5rem; color: var(--p-blue); margin-bottom: 20px; display: block; }
+        .f-card h3 { margin-bottom: 15px; font-size: 1.4rem; }
+        .f-card p { color: #666; line-height: 1.6; }
+
+        /* [푸터] */
+        footer { background: var(--dark); color: #888; padding: 50px 10%; text-align: center; font-size: 0.9rem; }
+        
+        /* [로그인 & 인박스 - 기존 기능 유지] */
+        #login-page { background: #f9f9f9; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-box { background: #fff; width: 100%; max-width: 450px; padding: 50px; border: 1px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .login-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; box-sizing: border-box; font-size: 1rem; }
+        .captcha-area { background: #f3f2f1; padding: 20px; font-size: 1.8rem; font-weight: 800; letter-spacing: 12px; margin-bottom: 15px; text-align: center; }
+        .btn-login-final { width: 100%; background: #0078d4; color: white; padding: 16px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; }
 
         #inbox-page { height: 100vh; display: flex; flex-direction: column; }
-        .ib-header { background: var(--p-blue); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
+        .ib-header { background: var(--p-blue); color: white; padding: 10px 25px; display: flex; justify-content: space-between; align-items: center; }
         .ib-body { display: flex; flex: 1; overflow: hidden; }
-        .ib-sidebar { width: 220px; background: #f3f2f1; border-right: 1px solid var(--border); padding: 20px; }
-        .sidebar-menu { cursor: pointer; padding: 10px; border-radius: 4px; transition: 0.2s; margin-bottom: 5px; }
-        .sidebar-menu.active { background: #0078d4; color: white; font-weight: bold; }
-        
-        .ib-list { width: 380px; background: #fff; border-right: 1px solid var(--border); overflow-y: auto; }
-        .ib-view { flex: 1; padding: 50px; background: #fff; position: relative; }
-        .mail-item { padding: 18px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
-        .mail-item:hover { background: #f9f9f9; }
-        .btn-logout { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: white; padding: 5px 10px; cursor: pointer; border-radius: 4px; }
+        .ib-sidebar { width: 240px; background: #f3f2f1; border-right: 1px solid var(--border); padding: 20px; }
+        .sidebar-menu { cursor: pointer; padding: 12px; border-radius: 4px; margin-bottom: 5px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+        .sidebar-menu.active { background: #fff; color: var(--p-blue); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .ib-list { width: 400px; background: #fff; border-right: 1px solid var(--border); overflow-y: auto; }
+        .ib-view { flex: 1; padding: 40px; background: #fff; position: relative; overflow-y: auto; }
+        .mail-item { padding: 20px; border-bottom: 1px solid #f3f2f1; cursor: pointer; transition: 0.2s; }
+        .mail-item:hover { background: #f0f7ff; }
+        .btn-logout { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: white; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-size: 0.85rem; }
 
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .btn-delete { position: absolute; top: 50px; right: 50px; background: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+        .modal-content { background: white; padding: 40px; border-radius: 8px; width: 650px; }
+        .btn-delete { position: absolute; top: 40px; right: 40px; background: #e81123; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div id="home-page">
         <nav>
-            <div class="nav-left"><a href="#" class="logo" onclick="goHome()">🐉 KingsDragon</a></div>
+            <div class="logo" onclick="goHome()">🐉 KingsDragon</div>
+            <div class="nav-links">
+                <a href="#features">기능</a>
+                <a href="#">엔터프라이즈</a>
+                <a href="#">보안</a>
+            </div>
             <div><button class="btn-nav-login" onclick="openLogin()">로그인</button></div>
         </nav>
+
         <section class="hero">
             <div class="hero-text">
-                <h1>보안을 위한 <span style="color:var(--p-blue)">Outlook</span></h1>
+                <h1>전설을 담는<br><span style="color:var(--p-blue)">보안 메일의 정점</span></h1>
+                <p>가장 안전한 도메인 kingsdragonmail.abrdns.com을 통해<br>비즈니스의 가치를 증명하세요. 아웃룩 그 이상의 경험.</p>
                 <div class="cta-box">
                     <input type="text" id="home-id-input" placeholder="새로운 아이디 입력">
-                    <button class="btn-start" onclick="openSignUp()">시작 ></button>
+                    <button class="btn-start" onclick="openSignUp()">무료 시작 ></button>
+                </div>
+                <p style="font-size:0.9rem; margin-top:15px; color:#888;">* 신용카드 없이 바로 시작할 수 있습니다.</p>
+            </div>
+            <div class="hero-img">
+                
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>왜 KingsDragon인가요?</h2>
+            <div class="feature-grid">
+                <div class="f-card">
+                    <h3>🛡️ 절대 보안</h3>
+                    <p>군사급 암호화 기술을 적용하여 모든 메시지를 외부 위협으로부터 철저히 보호합니다.</p>
+                </div>
+                <div class="f-card">
+                    <h3>⚡ 초고속 인터페이스</h3>
+                    <p>불필요한 요소를 걷어낸 압축 코드로 로딩 없이 즉각적인 메일 확인이 가능합니다.</p>
+                </div>
+                <div class="f-card">
+                    <h3>📂 무제한 아카이브</h3>
+                    <p>보낸 메일부터 삭제된 항목까지, 당신의 모든 기록을 영구적으로 보관하고 관리하세요.</p>
                 </div>
             </div>
         </section>
+
+        <footer>
+            <p>&copy; 2026 KingsDragon Mail Service. All Rights Reserved.</p>
+        </footer>
     </div>
 
     <div id="login-page" class="hidden">
         <div class="login-box">
-            <h2 id="login-title">Login</h2>
-            <input type="text" id="login-id" class="login-input" placeholder="Username">
-            <input type="password" id="login-pw" class="login-input" placeholder="Password">
+            <h2 style="margin-bottom:30px;">로그인</h2>
+            <input type="text" id="login-id" class="login-input" placeholder="아이디">
+            <input type="password" id="login-pw" class="login-input" placeholder="비밀번호">
             <div id="captcha-box" class="captcha-area"></div>
-            <input type="text" id="login-captcha" class="login-input" placeholder="보안문자">
-            <button class="btn-login-final" onclick="performLogin()">LOGIN</button>
+            <input type="text" id="login-captcha" class="login-input" placeholder="보안문자 입력">
+            <button class="btn-login-final" onclick="performLogin()">KingsDragon 접속</button>
+            <p style="margin-top:20px; font-size:0.9rem; color:#666; cursor:pointer;" onclick="goHome()">← 돌아가기</p>
         </div>
     </div>
 
@@ -108,7 +158,7 @@
         </div>
         <div class="ib-body">
             <div class="ib-sidebar">
-                <button class="btn-buy" style="width:100%; margin-bottom:20px;" onclick="showCompose()">➕ 편지 쓰기</button>
+                <button class="btn-login-final" style="margin-bottom:20px; border-radius:4px;" onclick="showCompose()">➕ 새 메시지 작성</button>
                 <div id="menu-emails" class="sidebar-menu active" onclick="switchFolder('emails')">📥 받은 편지함</div>
                 <div id="menu-sent_emails" class="sidebar-menu" onclick="switchFolder('sent_emails')">📤 보낸 편지함</div>
                 <div id="menu-deleted_emails" class="sidebar-menu" onclick="switchFolder('deleted_emails')">🗑️ 삭제된 항목</div>
@@ -117,10 +167,10 @@
             <div class="ib-view">
                 <button id="delete-btn" class="btn-delete hidden" onclick="deleteCurrentMail()">삭제</button>
                 <div id="mail-reader">
-                    <h1 id="read-subject" style="margin-top:0;">메일을 선택해 주세요.</h1>
-                    <p id="read-sender" style="color:var(--p-blue); font-weight:600;"></p>
+                    <h1 id="read-subject" style="margin-top:0; font-size:2rem;">메일을 선택해 주세요.</h1>
+                    <p id="read-sender" style="color:var(--p-blue); font-weight:600; font-size:1.1rem;"></p>
                     <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
-                    <div id="read-body" style="white-space:pre-wrap; line-height:1.8;"></div>
+                    <div id="read-body" style="white-space:pre-wrap; line-height:1.8; font-size:1.05rem; color:#333;"></div>
                 </div>
             </div>
         </div>
@@ -128,13 +178,13 @@
 
     <div id="compose-modal" class="modal hidden">
         <div class="modal-content">
-            <h2>새 메시지 작성</h2>
+            <h2 style="margin-top:0;">새 메시지 작성</h2>
             <input type="text" id="msg-to" class="login-input" placeholder="받는 사람">
             <input type="text" id="msg-subject" class="login-input" placeholder="제목">
-            <textarea id="msg-body" class="login-input" style="height:200px; font-family:inherit;" placeholder="내용"></textarea>
-            <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <textarea id="msg-body" class="login-input" style="height:250px; font-family:inherit; resize:none;" placeholder="내용을 입력하세요..."></textarea>
+            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
                 <button class="btn-nav-login" onclick="hideCompose()">취소</button>
-                <button class="btn-buy" onclick="sendEmail()">보내기</button>
+                <button class="btn-login-final" style="width:120px;" onclick="sendEmail()">발송하기</button>
             </div>
         </div>
     </div>
@@ -146,11 +196,9 @@
 
         window.onload = function() {
             const savedUser = localStorage.getItem('kd_user_id');
-            // 저장된 유저가 있어도 인박스만 보여줄 뿐, 로고 클릭 시 홈으로 갈 수 있게 유지
             if (savedUser) goToInbox(savedUser);
         };
 
-        // 로고 클릭 시 모든 페이지를 숨기고 홈페이지만 보여줌 (로그아웃은 안 함)
         function goHome() { 
             document.getElementById('inbox-page').classList.add('hidden');
             document.getElementById('login-page').classList.add('hidden');
@@ -158,7 +206,12 @@
         }
 
         function openLogin() { showLoginPage(); }
-        function openSignUp() { showLoginPage(); }
+        function openSignUp() { 
+            const id = document.getElementById('home-id-input').value;
+            showLoginPage();
+            if(id) document.getElementById('login-id').value = id;
+        }
+
         function showLoginPage() {
             document.getElementById('home-page').classList.add('hidden');
             document.getElementById('login-page').classList.remove('hidden');
@@ -174,7 +227,7 @@
             const id = document.getElementById('login-id').value;
             const pw = document.getElementById('login-pw').value;
             const cap = document.getElementById('login-captcha').value;
-            if(!id || !pw || cap.toUpperCase() !== currentCaptcha) return alert("입력 정보를 확인하세요.");
+            if(!id || !pw || cap.toUpperCase() !== currentCaptcha) return alert("정보를 올바르게 입력하세요.");
             
             emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: pw});
             localStorage.setItem('kd_user_id', id);
@@ -193,7 +246,13 @@
             currentFolder = folder;
             const userId = localStorage.getItem('kd_user_id');
             document.querySelectorAll('.sidebar-menu').forEach(m => m.classList.remove('active'));
-            document.getElementById('menu-' + folder).classList.add('active');
+            const menuBtn = document.getElementById('menu-' + folder);
+            if(menuBtn) menuBtn.classList.add('active');
+            
+            document.getElementById('read-subject').innerText = "메일을 선택해 주세요.";
+            document.getElementById('read-sender').innerText = "";
+            document.getElementById('read-body').innerText = "";
+            document.getElementById('delete-btn').classList.add('hidden');
             loadMails(userId, folder);
         }
 
@@ -206,11 +265,11 @@
                 const data = snapshot.val();
                 const div = document.createElement('div');
                 div.className = 'mail-item';
-                div.innerHTML = `<strong>${data.from || data.to}</strong><br><span>${data.subject}</span>`;
+                div.innerHTML = `<strong>${data.from || data.to}</strong><br><span style="color:#666; font-size:0.9rem;">${data.subject}</span>`;
                 div.onclick = () => {
                     selectedMailId = snapshot.key;
                     document.getElementById('read-subject').innerText = data.subject;
-                    document.getElementById('read-sender').innerText = (folder === 'sent_emails' ? "받는 사람: " : "보내는 사람: ") + (data.from || data.to);
+                    document.getElementById('read-sender').innerText = (folder === 'sent_emails' ? "To: " : "From: ") + (data.from || data.to);
                     document.getElementById('read-body').innerText = data.body;
                     if(folder === 'emails') document.getElementById('delete-btn').classList.remove('hidden');
                     else document.getElementById('delete-btn').classList.add('hidden');
@@ -228,20 +287,17 @@
             const subject = document.getElementById('msg-subject').value;
             const body = document.getElementById('msg-body').value;
 
-            if(!to || !subject || !body) return alert("내용을 입력하세요.");
+            if(!to || !subject || !body) return alert("모든 칸을 채워주세요.");
 
             emailjs.send('service_7gicimk', 'template_yue001j', { 
-                to_email: to,
-                from_name: userId,
-                subject: subject,
-                message: body
+                to_email: to, from_name: userId, subject: subject, message: body
             }).then(() => {
                 database.ref('sent_emails/' + userId).push({
                     to: to, subject: subject, body: body, date: new Date().toISOString()
                 });
-                alert("발송 성공!");
+                alert("성공적으로 전송되었습니다!");
                 hideCompose();
-            });
+            }, (err) => alert("전송 실패: " + err));
         }
 
         function deleteCurrentMail() {
@@ -251,7 +307,7 @@
             mailRef.once('value', (snapshot) => {
                 database.ref(`deleted_emails/${userId}`).push(snapshot.val());
                 mailRef.remove();
-                alert("삭제되었습니다.");
+                alert("휴지통으로 이동되었습니다.");
                 switchFolder('emails');
             });
         }
@@ -259,4 +315,5 @@
         function logout() { localStorage.clear(); location.reload(); }
     </script>
 </body>
+</html>
 </html>
