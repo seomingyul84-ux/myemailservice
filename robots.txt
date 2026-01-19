@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 구글 로봇에게 사이트맵 위치를 직접 알려줍니다.
+Sitemap: https://kingsdragonmail.abrdns.com/sitemap.xml
