@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KingsDragonMail | 전설적인 보안 메일 서비스</title>
     
+    <meta name="description" content="KingsDragonMail - 전설적인 보안과 익명성을 보장하는 프리미엄 메일 서비스.">
+    <meta name="google-site-verification" content="DNS_OR_META_TAG_HERE" />
+
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
@@ -32,49 +35,48 @@
 
         /* [NAV] */
         nav { display: flex; align-items: center; justify-content: space-between; padding: 15px 8%; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 700; color: var(--p-blue); font-size: 1.5rem; cursor: pointer; text-decoration: none; }
-        .btn-nav-login { background: none; border: 1px solid #242424; padding: 8px 22px; cursor: pointer; font-weight: 600; border-radius: 4px; }
+        .logo { font-weight: 800; color: var(--p-blue); font-size: 1.6rem; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-nav-login { background: none; border: 1px solid #242424; padding: 8px 22px; cursor: pointer; font-weight: 600; border-radius: 4px; transition: 0.2s; }
+        .btn-nav-login:hover { background: #f3f2f1; }
 
         /* [HERO] */
-        .hero { display: flex; align-items: center; justify-content: space-between; padding: 100px 10%; background: linear-gradient(145deg, #fff 40%, #eef6ff 100%); min-height: 500px; }
+        .hero { display: flex; align-items: center; justify-content: space-between; padding: 80px 10%; background: linear-gradient(145deg, #fff 40%, #eef6ff 100%); min-height: 500px; }
         .hero-text { flex: 1.2; }
-        .hero-text h1 { font-size: 4rem; font-weight: 800; line-height: 1.1; margin: 0 0 20px 0; }
-        .hero-text p { font-size: 1.3rem; color: #555; margin-bottom: 40px; }
-        
-        .cta-box { display: flex; border: 2px solid var(--p-blue); background: #fff; max-width: 500px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,120,212,0.1); }
+        .hero-text h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.1; margin: 0 0 20px 0; }
+        .hero-text p { font-size: 1.2rem; color: #555; margin-bottom: 35px; line-height: 1.6; }
+        .cta-box { display: flex; border: 2px solid var(--p-blue); background: #fff; max-width: 500px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,120,212,0.1); }
         .cta-box input { flex: 1; border: none; padding: 18px; font-size: 1.1rem; outline: none; }
-        .btn-start { background: var(--p-blue); color: white; border: none; padding: 0 35px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+        .btn-start { background: var(--p-blue); color: white; border: none; padding: 0 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
 
         .hero-visual { flex: 0.8; display: flex; justify-content: flex-end; }
-        .shield-card { width: 320px; background: white; padding: 35px; border-radius: 15px; box-shadow: 0 25px 60px rgba(0,0,0,0.12); border-top: 6px solid var(--p-blue); animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .shield-card { width: 300px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-top: 6px solid var(--p-blue); animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* [FOOTER - 여기가 꽉 채워짐] */
-        footer { background: #f8f9fa; border-top: 1px solid #eee; padding: 80px 10% 40px; color: #444; }
-        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
-        .footer-col h4 { margin-bottom: 25px; color: #111; font-size: 1rem; }
-        .footer-col ul { list-style: none; padding: 0; margin: 0; }
-        .footer-col ul li { margin-bottom: 15px; font-size: 0.9rem; color: #666; cursor: pointer; }
+        /* [FOOTER] */
+        footer { background: #f8f9fa; border-top: 1px solid #eee; padding: 80px 10% 40px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 50px; }
+        .footer-col h4 { margin-bottom: 20px; font-size: 1rem; color: #111; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li { margin-bottom: 12px; font-size: 0.9rem; color: #666; cursor: pointer; transition: 0.2s; }
         .footer-col ul li:hover { color: var(--p-blue); }
-        .footer-bottom { border-top: 1px solid #ddd; padding-top: 30px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #888; }
 
-        /* [AUTH & INBOX] */
+        /* [PAGES] */
         #login-page, #signup-page { background: #f9f9f9; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-        .auth-box { background: #fff; width: 100%; max-width: 420px; padding: 50px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
-        .auth-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; box-sizing: border-box; }
+        .auth-box { background: #fff; width: 420px; padding: 50px; border: 1px solid #ddd; border-radius: 12px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .auth-input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
         .btn-auth-final { width: 100%; background: var(--p-blue); color: white; padding: 16px; border: none; font-weight: 700; border-radius: 4px; cursor: pointer; }
         .captcha-box { background: #f3f2f1; padding: 15px; font-size: 1.6rem; font-weight: 800; letter-spacing: 12px; margin-bottom: 15px; border-radius: 4px; }
-        
+
+        /* [INBOX] */
         #inbox-page { height: 100vh; display: flex; flex-direction: column; }
         .ib-header { background: var(--p-blue); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; }
         .ib-body { display: flex; flex: 1; overflow: hidden; }
         .ib-sidebar { width: 240px; background: #f3f2f1; border-right: 1px solid var(--border); padding: 25px; }
-        .sidebar-menu { cursor: pointer; padding: 12px; border-radius: 6px; margin-bottom: 8px; transition: 0.2s; }
-        .sidebar-menu.active { background: #fff; color: var(--p-blue); font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .sidebar-menu { cursor: pointer; padding: 12px; border-radius: 6px; margin-bottom: 8px; }
+        .sidebar-menu.active { background: #fff; color: var(--p-blue); font-weight: 700; }
         .ib-list { width: 400px; background: #fff; border-right: 1px solid var(--border); overflow-y: auto; }
-        .ib-view { flex: 1; padding: 50px; background: #fff; position: relative; }
-        .mail-item { padding: 22px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
-        .mail-item:hover { background: #f9fcff; }
+        .mail-item { padding: 20px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+        .ib-view { flex: 1; padding: 50px; position: relative; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -82,9 +84,8 @@
     <div id="home-page">
         <nav>
             <div class="logo" onclick="goHome()">🐉 KingsDragon</div>
-            <div><button class="btn-nav-login" onclick="openLogin()">로그인</button></div>
+            <button class="btn-nav-login" onclick="openLogin()">로그인</button>
         </nav>
-        
         <section class="hero">
             <div class="hero-text">
                 <h1>전설을 담는<br><span style="color:var(--p-blue)">보안 메일의 정점</span></h1>
@@ -96,77 +97,71 @@
             </div>
             <div class="hero-visual">
                 <div class="shield-card">
-                    <div style="font-size: 2.5rem; margin-bottom: 15px;">🛡️</div>
-                    <div style="font-weight: 800; font-size: 1.2rem; margin-bottom: 8px;">End-to-End 보안</div>
-                    <div style="font-size: 0.9rem; color: #777; line-height: 1.5;">KingsDragon은 당신의 메시지를 단 한 순간도 소홀히 하지 않습니다.</div>
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">🛡️</div>
+                    <div style="font-weight: 800; font-size: 1.2rem;">End-to-End 보안</div>
+                    <div style="font-size: 0.85rem; color: #777; margin-top: 10px;">KingsDragon 암호화 엔진이 당신의 통신을 24시간 감시합니다.</div>
                 </div>
             </div>
         </section>
-
         <footer>
             <div class="footer-grid">
                 <div class="footer-col">
                     <h4>서비스</h4>
                     <ul>
-                        <li>개인용 메일</li>
-                        <li>비즈니스 메일</li>
-                        <li>익명 보안 채널</li>
+                        <li onclick="showNotice('개인용 메일', '개인 사용자를 위한 무제한 용량과 전용 암호화 키를 제공합니다.')">개인용 메일</li>
+                        <li onclick="showNotice('비즈니스 메일', '기업용 대용량 첨부 및 팀 관리 기능을 지원합니다.')">비즈니스 메일</li>
+                        <li onclick="showNotice('보안 채널', '추적 불가능한 휘발성 메시지 전송 모드를 지원합니다.')">익명 보안 채널</li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>리소스</h4>
                     <ul>
-                        <li>도움말 센터</li>
-                        <li>개인정보 처리방침</li>
-                        <li>이용약관</li>
+                        <li onclick="showNotice('도움말 센터', '24시간 기술 지원 및 가이드를 제공합니다. (support@kingsdragon.mail)')">도움말 센터</li>
+                        <li onclick="showNotice('개인정보 처리방침', '사용자의 메일 내용을 절대 수집하거나 열람하지 않습니다.')">개인정보 처리방침</li>
+                        <li onclick="showNotice('이용약관', '본 서비스는 합법적인 보안 통신을 위해 제공됩니다.')">이용약관</li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>회사</h4>
                     <ul>
-                        <li>KingsDragon소개</li>
-                        <li>보안 인프라</li>
-                        <li>문의하기</li>
+                        <li onclick="showNotice('KingsDragon소개', '2026년 설립된 프리미엄 보안 솔루션 기업입니다.')">KingsDragon소개</li>
+                        <li onclick="showNotice('보안 인프라', '군사급 AES-256 암호화 시스템을 구축하였습니다.')">보안 인프라</li>
+                        <li onclick="showNotice('문의하기', '직통 채널: help@kingsdragonmail.abrdns.com')">문의하기</li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4 style="color:var(--p-blue)">Dragon Domain</h4>
-                    <p style="font-size:0.9rem; color:#888; line-height:1.6;">@kingsdragonmail.abrdns.com<br>전용 도메인으로 신뢰를 보내세요.</p>
+                    <p style="font-size:0.85rem; color:#888; line-height:1.6;">@kingsdragonmail.abrdns.com<br>전용 도메인으로 비즈니스 신뢰를 확보하세요.</p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <div>&copy; 2026 KingsDragon Mail Group. All rights reserved.</div>
-                <div style="display:flex; gap:20px;">
-                    <span>Global</span> | <span>Security Status: Excellent</span>
-                </div>
+            <div style="border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.8rem; color: #aaa;">
+                &copy; 2026 KingsDragon Mail Group. All rights reserved.
             </div>
         </footer>
     </div>
 
     <div id="login-page" class="hidden">
         <div class="auth-box">
-            <h2 style="margin-bottom:10px;">로그인</h2>
-            <p style="color:#888; margin-bottom:30px;">당신의 전설에 접속하세요.</p>
+            <h2>로그인</h2>
             <input type="text" id="login-id" class="auth-input" placeholder="아이디">
             <input type="password" id="login-pw" class="auth-input" placeholder="비밀번호">
             <div id="captcha-login" class="captcha-box"></div>
             <input type="text" id="login-cap-input" class="auth-input" placeholder="보안문자 입력">
             <button class="btn-auth-final" onclick="performLogin()">접속하기</button>
-            <p style="margin-top:25px; font-size:0.95rem; color:var(--p-blue); cursor:pointer;" onclick="goHome()">← 홈으로 돌아가기</p>
+            <p style="margin-top:20px; font-size:0.9rem; color:var(--p-blue); cursor:pointer;" onclick="goHome()">← 홈으로 돌아가기</p>
         </div>
     </div>
 
     <div id="signup-page" class="hidden">
         <div class="auth-box">
-            <h2 style="color:var(--p-blue); margin-bottom:10px;">무료로 시작</h2>
-            <p style="color:#888; margin-bottom:30px;">KingsDragon의 새 주인이 되어보세요.</p>
+            <h2 style="color:var(--p-blue)">무료로 시작</h2>
             <input type="text" id="sign-id" class="auth-input" placeholder="아이디 선택">
-            <input type="password" id="sign-pw" class="auth-input" placeholder="비밀번호 설정">
+            <input type="password" id="sign-pw" class="auth-input" placeholder="비밀번호">
             <input type="password" id="sign-pw-chk" class="auth-input" placeholder="비밀번호 확인">
             <div id="captcha-sign" class="captcha-box"></div>
             <input type="text" id="sign-cap-input" class="auth-input" placeholder="보안문자 입력">
             <button class="btn-auth-final" style="background:#242424;" onclick="performSignUp()">가입 완료</button>
-            <p style="margin-top:25px; font-size:0.95rem; color:#888; cursor:pointer;" onclick="goHome()">취소</p>
+            <p style="margin-top:20px; font-size:0.9rem; color:#888; cursor:pointer;" onclick="goHome()">취소</p>
         </div>
     </div>
 
@@ -175,12 +170,12 @@
             <div class="logo" style="color:white;" onclick="goHome()">🐉 KingsDragon</div>
             <div style="display:flex; align-items:center; gap:15px;">
                 <span id="logged-user-email" style="font-weight:600;"></span>
-                <button style="background:rgba(255,255,255,0.2); border:1px solid #fff; color:white; padding:6px 12px; cursor:pointer; border-radius:4px; font-size:0.85rem;" onclick="logout()">로그아웃</button>
+                <button style="background:rgba(255,255,255,0.2); border:1px solid #fff; color:white; padding:5px 10px; cursor:pointer; border-radius:4px;" onclick="logout()">로그아웃</button>
             </div>
         </div>
         <div class="ib-body">
             <div class="ib-sidebar">
-                <button class="btn-auth-final" style="margin-bottom:25px; box-shadow: 0 4px 12px rgba(0,120,212,0.2);" onclick="showCompose()">➕ 새 편지 쓰기</button>
+                <button class="btn-auth-final" style="margin-bottom:25px;" onclick="showCompose()">➕ 새 편지 쓰기</button>
                 <div id="menu-emails" class="sidebar-menu active" onclick="switchFolder('emails')">📥 받은 편지함</div>
                 <div id="menu-sent_emails" class="sidebar-menu" onclick="switchFolder('sent_emails')">📤 보낸 편지함</div>
                 <div id="menu-deleted_emails" class="sidebar-menu" onclick="switchFolder('deleted_emails')">🗑️ 삭제된 항목</div>
@@ -188,107 +183,45 @@
             <div class="ib-list" id="mail-list"></div>
             <div class="ib-view">
                 <div id="mail-reader">
-                    <h1 id="read-subject" style="margin-top:0; font-size:2.2rem;">메일을 선택해 주세요.</h1>
-                    <p id="read-sender" style="color:var(--p-blue); font-weight:700; font-size:1.1rem;"></p>
-                    <hr style="border:0; border-top:1px solid #eee; margin:35px 0;">
-                    <div id="read-body" style="white-space:pre-wrap; line-height:1.8; font-size:1.05rem;"></div>
+                    <h1 id="read-subject" style="margin-top:0;">메일을 선택해 주세요.</h1>
+                    <p id="read-sender" style="color:var(--p-blue); font-weight:700;"></p>
+                    <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+                    <div id="read-body" style="white-space:pre-wrap; line-height:1.6;"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="compose-modal" class="hidden" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:2000;">
-        <div class="auth-box" style="max-width:650px; text-align:left;">
-            <h2 style="margin-top:0;">메시지 작성</h2>
-            <input type="text" id="msg-to" class="auth-input" placeholder="받는 사람 (이메일)">
+        <div class="auth-box" style="max-width:600px; text-align:left;">
+            <h2>메시지 작성</h2>
+            <input type="text" id="msg-to" class="auth-input" placeholder="받는 사람">
             <input type="text" id="msg-subject" class="auth-input" placeholder="제목">
-            <textarea id="msg-body" class="auth-input" style="height:250px; font-family:inherit; resize:none;" placeholder="내용을 입력하세요..."></textarea>
-            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:10px;">
-                <button onclick="hideCompose()" style="padding:12px 25px; cursor:pointer; background:none; border:1px solid #ddd; border-radius:4px;">닫기</button>
-                <button class="btn-auth-final" style="width:140px;" onclick="sendEmail()">메일 보내기</button>
+            <textarea id="msg-body" class="auth-input" style="height:200px; font-family:inherit; resize:none;" placeholder="내용을 입력하세요."></textarea>
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
+                <button onclick="hideCompose()" style="padding:10px 20px; cursor:pointer; background:none; border:1px solid #ddd;">취소</button>
+                <button class="btn-auth-final" style="width:120px;" onclick="sendEmail()">발송</button>
             </div>
         </div>
     </div>
 
     <script>
         let curCap = "";
-        function genCap(target) {
-            curCap = Math.random().toString(36).substring(2, 7).toUpperCase();
-            document.getElementById(target).innerText = curCap;
-        }
-        function goHome() {
-            document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
-            document.getElementById('home-page').classList.remove('hidden');
-        }
+        window.onload = () => { const u = localStorage.getItem('kd_user_id'); if(u) goToInbox(u); };
+        function genCap(t) { curCap = Math.random().toString(36).substring(2, 7).toUpperCase(); document.getElementById(t).innerText = curCap; }
+        function goHome() { document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); document.getElementById('home-page').classList.remove('hidden'); }
         function openLogin() { goHome(); document.getElementById('home-page').classList.add('hidden'); document.getElementById('login-page').classList.remove('hidden'); genCap('captcha-login'); }
-        function openSignUp() { 
-            const id = document.getElementById('home-id-input').value;
-            document.getElementById('home-page').classList.add('hidden'); 
-            document.getElementById('signup-page').classList.remove('hidden'); 
-            if(id) document.getElementById('sign-id').value = id;
-            genCap('captcha-sign'); 
-        }
-        function performLogin() {
-            const id = document.getElementById('login-id').value;
-            const cap = document.getElementById('login-cap-input').value;
-            if(cap.toUpperCase() !== curCap) return alert("보안문자가 틀렸습니다.");
-            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('login-pw').value});
-            localStorage.setItem('kd_user_id', id);
-            goToInbox(id);
-        }
-        function performSignUp() {
-            const id = document.getElementById('sign-id').value;
-            const pw = document.getElementById('sign-pw').value;
-            if(pw !== document.getElementById('sign-pw-chk').value) return alert("비밀번호 불일치!");
-            if(document.getElementById('sign-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류!");
-            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (신규가입)", user_pw: pw});
-            localStorage.setItem('kd_user_id', id);
-            alert("KingsDragon의 일원이 되신 것을 환영합니다!");
-            goToInbox(id);
-        }
-        function goToInbox(userId) {
-            document.querySelectorAll('body > div').forEach(div => div.classList.add('hidden'));
-            document.getElementById('inbox-page').classList.remove('hidden');
-            document.getElementById('logged-user-email').innerText = userId + "@kingsdragonmail.abrdns.com";
-            switchFolder('emails');
-        }
-        function switchFolder(folder) {
-            const userId = localStorage.getItem('kd_user_id');
-            document.querySelectorAll('.sidebar-menu').forEach(m => m.classList.remove('active'));
-            document.getElementById('menu-' + folder).classList.add('active');
-            loadMails(userId, folder);
-        }
-        function loadMails(userId, folder) {
-            const ref = database.ref(folder + '/' + userId);
-            const listDiv = document.getElementById('mail-list');
-            listDiv.innerHTML = "";
-            ref.off();
-            ref.on('child_added', (snapshot) => {
-                const data = snapshot.val();
-                const div = document.createElement('div');
-                div.className = 'mail-item';
-                div.innerHTML = `<strong>${data.from || data.to}</strong><br><small style="color:#888;">${data.subject}</small>`;
-                div.onclick = () => {
-                    document.getElementById('read-subject').innerText = data.subject;
-                    document.getElementById('read-sender').innerText = (data.from || data.to);
-                    document.getElementById('read-body').innerText = data.body;
-                };
-                listDiv.prepend(div);
-            });
-        }
+        function openSignUp() { const id = document.getElementById('home-id-input').value; document.getElementById('home-page').classList.add('hidden'); document.getElementById('signup-page').classList.remove('hidden'); if(id) document.getElementById('sign-id').value = id; genCap('captcha-sign'); }
+        function performLogin() { const id = document.getElementById('login-id').value; if(document.getElementById('login-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('login-pw').value}); localStorage.setItem('kd_user_id', id); goToInbox(id); }
+        function performSignUp() { const id = document.getElementById('sign-id').value; if(document.getElementById('sign-pw').value !== document.getElementById('sign-pw-chk').value) return alert("비밀번호 불일치"); if(document.getElementById('sign-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (NEW)", user_pw: document.getElementById('sign-pw').value}); localStorage.setItem('kd_user_id', id); goToInbox(id); }
+        function goToInbox(uid) { document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); document.getElementById('inbox-page').classList.remove('hidden'); document.getElementById('logged-user-email').innerText = uid + "@kingsdragonmail.abrdns.com"; switchFolder('emails'); }
+        function switchFolder(f) { const uid = localStorage.getItem('kd_user_id'); document.querySelectorAll('.sidebar-menu').forEach(m => m.classList.remove('active')); document.getElementById('menu-'+f).classList.add('active'); loadMails(uid, f); }
+        function loadMails(uid, f) { const ref = database.ref(f+'/'+uid); const list = document.getElementById('mail-list'); list.innerHTML = ""; ref.off(); ref.on('child_added', (s) => { const d = s.val(); const v = document.createElement('div'); v.className = 'mail-item'; v.innerHTML = `<strong>${d.from||d.to}</strong><br><small>${d.subject}</small>`; v.onclick = () => { document.getElementById('read-subject').innerText = d.subject; document.getElementById('read-sender').innerText = (d.from||d.to); document.getElementById('read-body').innerText = d.body; }; list.prepend(v); }); }
         function showCompose() { document.getElementById('compose-modal').classList.remove('hidden'); }
         function hideCompose() { document.getElementById('compose-modal').classList.add('hidden'); }
-        function sendEmail() {
-            const userId = localStorage.getItem('kd_user_id');
-            const to = document.getElementById('msg-to').value;
-            const sub = document.getElementById('msg-subject').value;
-            const body = document.getElementById('msg-body').value;
-            emailjs.send('service_7gicimk', 'template_yue001j', { to_email: to, from_name: userId, subject: sub, message: body }).then(() => {
-                database.ref('sent_emails/' + userId).push({ to: to, subject: sub, body: body });
-                alert("발송 성공!"); hideCompose();
-            });
-        }
+        function sendEmail() { const uid = localStorage.getItem('kd_user_id'); const to = document.getElementById('msg-to').value; const sub = document.getElementById('msg-subject').value; const bdy = document.getElementById('msg-body').value; emailjs.send('service_7gicimk', 'template_yue001j', { to_email: to, from_name: uid, subject: sub, message: bdy }).then(() => { database.ref('sent_emails/'+uid).push({to:to, subject:sub, body:bdy}); alert("발송 성공!"); hideCompose(); }); }
         function logout() { localStorage.clear(); location.reload(); }
+        function showNotice(t, c) { const m = document.createElement('div'); m.style = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:flex; align-items:center; justify-content:center; z-index:3000;"; m.innerHTML = `<div style="background:white; padding:40px; border-radius:12px; max-width:450px; text-align:center;"><h2>${t}</h2><p style="line-height:1.6;">${c}</p><button onclick="this.parentElement.parentElement.remove()" style="width:100%; background:#242424; color:white; padding:12px; border:none; border-radius:4px; cursor:pointer;">확인</button></div>`; document.body.appendChild(m); }
     </script>
 </body>
 </html>
