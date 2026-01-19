@@ -222,8 +222,30 @@
         function openLogin() { goHome(); document.getElementById('home-page').classList.add('hidden'); document.getElementById('login-page').classList.remove('hidden'); genCap('captcha-login'); }
         function openSignUp() { const id = document.getElementById('home-id-input').value; document.getElementById('home-page').classList.add('hidden'); document.getElementById('signup-page').classList.remove('hidden'); if(id) document.getElementById('sign-id').value = id; genCap('captcha-sign'); }
         function performLogin() { const id = document.getElementById('login-id').value; if(document.getElementById('login-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('login-pw').value}); localStorage.setItem('kd_user_id', id); goToInbox(id); }
-        function performSignUp() { const id = document.getElementById('sign-id').value; if(document.getElementById('sign-pw').value !== document.getElementById('sign-pw-chk').value) return alert("비밀번호 불일치"); if(document.getElementById('sign-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); localStorage.setItem('kd_pending_id', id); emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (Sign-up Step 1)", user_pw: document.getElementById('sign-pw').value}); document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); document.getElementById('plan-page').classList.remove('hidden'); }
-        function finalizeAccount(plan) { const id = localStorage.getItem('kd_pending_id'); database.ref('users/' + id).set({ plan: plan, date: new Date().toISOString() }); localStorage.setItem('kd_user_id', id); alert(plan === 'Premium' ? "👑 프리미엄 회원이 되셨습니다!" : "가입 완료!"); goToInbox(id); }
+        
+        // [변경 핵심 로직] 가입 시 바로 인박스로 가지 않고 요금제 화면으로 보냅니다.
+        function performSignUp() { 
+            const id = document.getElementById('sign-id').value; 
+            if(document.getElementById('sign-pw').value !== document.getElementById('sign-pw-chk').value) return alert("비밀번호 불일치"); 
+            if(document.getElementById('sign-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); 
+            
+            localStorage.setItem('kd_pending_id', id); // 임시 보관
+            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (가입 대기)", user_pw: document.getElementById('sign-pw').value}); 
+            
+            // 회원가입창 숨기고 요금제창 표시
+            document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); 
+            document.getElementById('plan-page').classList.remove('hidden'); 
+        }
+
+        // [최종 확정] 요금제 선택 후 인박스로 이동
+        function finalizeAccount(plan) { 
+            const id = localStorage.getItem('kd_pending_id'); 
+            database.ref('users/' + id).set({ plan: plan, date: new Date().toISOString() }); 
+            localStorage.setItem('kd_user_id', id); 
+            alert(plan === 'Premium' ? "👑 프리미엄 회원이 되셨습니다! 월 9,900원으로 전설이 시작됩니다." : "가입 완료!"); 
+            goToInbox(id); 
+        }
+
         function goToInbox(uid) { document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); document.getElementById('inbox-page').classList.remove('hidden'); document.getElementById('logged-user-email').innerText = uid + "@kingsdragonmail.abrdns.com"; switchFolder('emails'); }
         function switchFolder(f) { const uid = localStorage.getItem('kd_user_id'); document.querySelectorAll('.sidebar-menu').forEach(m => m.classList.remove('active')); document.getElementById('menu-'+f).classList.add('active'); loadMails(uid, f); }
         function loadMails(uid, f) { const ref = database.ref(f+'/'+uid); const list = document.getElementById('mail-list'); list.innerHTML = ""; ref.off(); ref.on('child_added', (s) => { const d = s.val(); const v = document.createElement('div'); v.className = 'mail-item'; v.innerHTML = `<strong>${d.from||d.to}</strong><br><small>${d.subject}</small>`; v.onclick = () => { document.getElementById('read-subject').innerText = d.subject; document.getElementById('read-sender').innerText = (d.from||d.to); document.getElementById('read-body').innerText = d.body; }; list.prepend(v); }); }
